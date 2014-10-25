@@ -1,0 +1,34 @@
+{
+	"name": "indigophp/common",
+	"description": "Common FuelPHP tools for IndigoPHP framework",
+	"license": "MIT",
+	"keywords": ["fuelphp", "common", "indigophp"],
+	"homepage": "https://indigophp.com",
+	"authors": [
+		{
+			"name": "Tamás Barta",
+			"email": "barta.tamas.d@gmail.com"
+		},
+		{
+			"name": "Márk Sági-Kazár",
+			"email": "mark.sagikazar@gmail.com"
+		}
+	],
+	"require": {
+		"php": ">=5.4.0"
+	},
+	"require-dev": {
+		"phpspec/phpspec": "~2.0",
+		"henrikbjorn/phpspec-code-coverage" : "1.0.*@dev"
+	},
+	"autoload": {
+		"psr-4": {
+			"Indigo\\Common\\": "src/"
+		}
+	},
+	"config": {
+		"bin-dir": "bin"
+	},
+	"prefer-stable": true,
+	"minimum-stability": "dev"
+}
