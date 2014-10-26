@@ -40,7 +40,7 @@ trait Theme
 		$paths = $config->get('theme.paths', []);
 		$theme = $config->get('theme.active', 'default');
 
-		if ($config->get('theme.use_component_name', false))
+		if ($config->get('theme.use_component', false))
 		{
 			$component = $this->request->getComponent()->getUri();
 			$component = str_replace('/', DIRECTORY_SEPARATOR, trim($component, '/'));
@@ -48,6 +48,7 @@ trait Theme
 
 		foreach ($paths as $path)
 		{
+			rtrim($path, '\\/');
 			$path .= DIRECTORY_SEPARATOR.$theme;
 
 			if (isset($component))
@@ -55,7 +56,7 @@ trait Theme
 				$path .= DIRECTORY_SEPARATOR.$component;
 			}
 
-			$finder->addPath($path);
+			is_dir($path) and $finder->addPath($path);
 		}
 	}
 }
