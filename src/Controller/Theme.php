@@ -38,6 +38,9 @@ trait Theme
 		$paths = $config->get('theme.paths', []);
 		$theme = $config->get('theme.active', 'default');
 
+		\View::setGlobal('theme', $theme);
+		\View::setGlobal('asset_path', $config->get('theme.asset_path', 'themes'.DIRECTORY_SEPARATOR));
+
 		if ($config->get('theme.use_component', false))
 		{
 			$component = $this->request->getComponent()->getUri();
