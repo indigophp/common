@@ -11,8 +11,6 @@
 
 namespace Indigo\Common\Controller;
 
-use LogicException;
-
 /**
  * Theme Controller
  *
