@@ -11,8 +11,8 @@
 
 namespace Indigo\Common\Controller;
 
+use Indigo\Common\Mimetypes;
 use Fuel\Foundation\Controller\Base;
-use Fuel\FileSystem\File;
 use Fuel\Foundation\Exception\Forbidden;
 use Fuel\Foundation\Exception\NotFound;
 
@@ -40,8 +40,19 @@ class Assets extends Base
 
 		$file = realpath(DOCROOT.'../themes/'.$theme.'/assets/'.$file);
 
-		$file = new File($file);
+		if ( ! file_exists($file))
+		{
+			throw new NotFound;
+		}
 
-		return \Response::forge('file', $file);
+		if ( ! is_readable($file))
+		{
+			throw new Forbidden;
+		}
+
+		$mime = Mimetypes::fromFilename($file);
+		$content = file_get_contents($file);
+
+		return \Response::forge('content', $content, $mime);
 	}
 }

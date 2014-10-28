@@ -24,7 +24,10 @@ class FuelServiceProvider extends ServiceProvider
 	/**
 	 * {@inheritdoc}
 	 */
-	public $provides = ['response.file'];
+	public $provides = [
+		'response.file',
+		'response.content',
+	];
 
 	/**
 	 * {@inheritdoc}
@@ -37,5 +40,12 @@ class FuelServiceProvider extends ServiceProvider
 		});
 
 		$this->extend('response.file', 'getRequestInstance');
+
+		$this->register('response.content', function ($dic, $content = '', $contentType = 'application/octet-stream', $status = 200, array $headers = [])
+		{
+			return $dic->resolve('Indigo\Common\Response\Content', [$content, $contentType, $status, $headers]);
+		});
+
+		$this->extend('response.content', 'getRequestInstance');
 	}
 }

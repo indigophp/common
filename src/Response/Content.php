@@ -12,38 +12,29 @@
 namespace Indigo\Common\Response;
 
 use Fuel\Foundation\Response\Base;
-use Fuel\Foundation\Exception\Forbidden;
-use Fuel\Foundation\Exception\NotFound;
 
 /**
- * Serve a file as a response
+ * Return any content
  *
  * @author Márk Sági-Kazár <mark.sagikazar@gmail.com>
  */
-class File extends Base
+class Content extends Base
 {
 	/**
-	 * @param string $file
-	 * @param string $mime
-	 * @param array  $headers
+	 * @param string  $content
+	 * @param string  $contentType
+	 * @param integer $status
+	 * @param array   $headers
 	 */
-	public function __construct(\Fuel\FileSystem\File $file, array $headers = [])
-	{
-		// process the passed data
+	public function __construct(
+		$content = '',
+		$contentType = 'application/octet-stream',
+		$status = 200,
+		array $headers = []
+	) {
+		$this->setContentType($contentType);
 
-		if ( ! $file->exists())
-		{
-			throw new NotFound;
-		}
-
-		if ( ! $file->isReadable())
-		{
-			throw new Forbidden;
-		}
-
-		$this->setContentType($file->getMimeType());
-
-		parent::__construct($file, 200, $headers);
+		parent::__construct($content, $status, $headers);
 	}
 
 	/**
@@ -63,6 +54,6 @@ class File extends Base
 	 */
 	public function __toString()
 	{
-		return $this->content->getContents();
+		return $this->content;
 	}
 }
