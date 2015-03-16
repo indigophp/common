@@ -17,8 +17,6 @@ use Fuel\Foundation\Exception\Forbidden;
 use Fuel\Foundation\Exception\NotFound;
 
 /**
- * Assets Controller
- *
  * Serve assets from protected folders
  *
  * @author Márk Sági-Kazár <mark.sagikazar@gmail.com>

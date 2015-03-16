@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the FuelPHP Menu package.
+ * This file is part of the Indigo Common package.
  *
  * (c) Indigo Development Team
  *
@@ -11,20 +11,21 @@
 
 namespace Indigo\Common\Providers;
 
+use League\Container\ServiceProvider;
 use Fuel\FileSystem\File;
-use Fuel\Dependency\ServiceProvider;
+use Indigo\Common\Response;
 
 /**
- * Provides menu services
+ * Provides common services
  *
  * @author Márk Sági-Kazár <mark.sagikazar@gmail.com>
  */
 class FuelServiceProvider extends ServiceProvider
 {
 	/**
-	 * {@inheritdoc}
+	 * @var array
 	 */
-	public $provides = [
+	protected $provides = [
 		'response.file',
 		'response.content',
 	];
@@ -32,20 +33,16 @@ class FuelServiceProvider extends ServiceProvider
 	/**
 	 * {@inheritdoc}
 	 */
-	public function provide()
+	public function register()
 	{
-		$this->register('response.file', function ($dic, File $file, array $headers = [])
+		$this->container->add('response.file', function (File $file, array $headers = [])
 		{
-			return $dic->resolve('Indigo\Common\Response\File', [$file, $headers]);
+			return new Response\File($file, $headers);
 		});
 
-		$this->extend('response.file', 'getRequestInstance');
-
-		$this->register('response.content', function ($dic, $content = '', $contentType = 'application/octet-stream', $status = 200, array $headers = [])
+		$this->container->add('response.content', function ($content = '', $contentType = 'application/octet-stream', $status = 200, array $headers = [])
 		{
-			return $dic->resolve('Indigo\Common\Response\Content', [$content, $contentType, $status, $headers]);
+			return new Response\Content($content, $contentType, $status, $headers);
 		});
-
-		$this->extend('response.content', 'getRequestInstance');
 	}
 }
